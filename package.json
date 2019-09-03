@@ -8,8 +8,8 @@
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-sftp": "^0.1.5",
-    "jade": "^1.11.0",
     "minimist": "^1.2.0",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "pug": "^2.0.4"
   }
 }

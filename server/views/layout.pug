@@ -8,10 +8,18 @@ html(lang="zh-cn")
 
     title #{title}
 
-    block styles
-      link(href="styles/main.css", rel="stylesheet")
+    block head-style
+      link(href="node_modules/bootstrap/dist/css/bootstrap.css", rel="stylesheet")
+
+    block head-style-custom
+
     block head-script
-      script(src="lib.js")
+      script(src="node_modules/jquery/dist/jquery.js")
+      script(src="node_modules/vue/dist/vue.js")
+      script(src="node_modules/bootstrap/dist/js/bootstrap.js")
+
+    block head-script-custom
+
   body
     block header
       include ./parts/header.pug
@@ -23,4 +31,6 @@ html(lang="zh-cn")
       include ./parts/footer.pug
       
     block bottom-script
-      script(src="main.js")
+      script(src="scripts/main.js")
+
+    block bottom-script-custom

@@ -1,22 +1,27 @@
-//- <!DOCTYPE html>
-//- html(lang="zh-cn")
-//-   head
-//-     meta(charset="UTF-8")
-//-     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-//-     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-//-     title #{title}
-//-     link(href="styles/main.css", rel="stylesheet")
-//-   body
-//-     h1 这是一个网页.....
-
+//- 首页
 extends ./layout.pug
 
-block head-script
-  script(src='scripts/jquery.js')
-  script(src='scripts/pets.js')
+//- block head-script
 
 block body
-  h1= title
-  - var pets = ['猫', '狗']
-  each petName in pets
-    li= petName
+  .container
+    h1.text-center= title
+
+    .jumbotron
+      h1.display-4 Hello, world!
+        |       
+        p.lead
+          | This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+        |       
+        hr.my-4
+        |       
+        p
+          | It uses utility classes for typography and spacing to space content out within the larger container.
+        |       
+        a.btn.btn-primary.btn-lg(href='javascript:;', role='button') Learn more
+
+
+    - var pets = ['猫', '狗', '牛']
+    ul.list-group
+    each petName in pets
+      li.list-group-item= petName

@@ -1,2 +1,18 @@
-header 我是通用头部
-hr
+header
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='/') logo
+      |   
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      |   
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav
+          li.nav-item.active
+            a.nav-link(href='/')
+              | 首页 
+          |
+          li.nav-item
+            a.nav-link(href='/other') 其它
+          |       
+          li.nav-item
+            a.nav-link(href='/about') 关于
