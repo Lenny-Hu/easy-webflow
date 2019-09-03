@@ -1,7 +1,8 @@
 //- 首页
 extends ./layout.pug
 
-//- block head-script
+block head-style-custom
+  link(href="css/pages/home.css", rel="stylesheet")
 
 block body
   .container
@@ -25,3 +26,10 @@ block body
     ul.list-group
     each petName in pets
       li.list-group-item= petName
+
+    
+    h2 雪碧图
+    hr
+    - var n = 1;
+    while n <= 15
+      .card(class=`icon-${n++}`)= n-1
