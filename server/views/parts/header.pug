@@ -1,18 +1,12 @@
 header
   nav.navbar.navbar-expand-lg.navbar-light.bg-light
-      a.navbar-brand(href='/') logo
-      |   
+      a.navbar-brand(href='/')
+        i.fa.fa-home
+        | &nbsp;logo
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-      |   
-      #navbarNav.collapse.navbar-collapse
+      .collapse.navbar-collapse
         ul.navbar-nav
-          li.nav-item.active
-            a.nav-link(href='/')
-              | 首页 
-          |
-          li.nav-item
-            a.nav-link(href='/other') 其它
-          |       
-          li.nav-item
-            a.nav-link(href='/about') 关于
+          each nav in routes
+            li.nav-item(class=nav.path === path ? 'active': '')
+              a.nav-link(href=nav.path)= nav.title

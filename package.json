@@ -4,10 +4,13 @@
     "browser-sync": "^2.26.7",
     "cssnano": "^4.1.10",
     "dayjs": "^1.8.16",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "gulp-image": "^5.1.0",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-sftp": "^0.1.5",
+    "gulp.spritesmith": "^6.10.1",
     "minimist": "^1.2.0",
     "node-sass": "^4.12.0",
     "pug": "^2.0.4"
