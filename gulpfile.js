@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-03 18:08:29
+ * @LastEditTime: 2019-09-04 17:59:13
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -23,7 +23,9 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
-const babel = require('gulp-babel');
+// const babel = require('gulp-babel');
+const webpack = require('webpack-stream');
+const named = require('vinyl-named');
 
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
@@ -72,21 +74,31 @@ gulp.task('sass', () => {
     .pipe(gulp.dest(path.join(config.static, '/css/')));
 });
 
-// es6编译
-gulp.task('babel', () => {
-  return gulp.src('./app/scripts/main.js', {
+// es6编译 => ie9+
+gulp.task('webpack', () => {
+  return gulp.src('./app/scripts/**/*.js', {
     base: './app/scripts'
   })
-    .pipe(babel({
-      presets: [
-        ['@babel/preset-env', {
-          targets: 'cover 99.5%'
-          // targets: {
-          //   browsers: 'cover 99.5%'
-          // }
-        }]
-      ]
-      // plugins: ['@babel/transform-runtime']
+    // .pipe(babel())
+    .pipe(named())
+    .pipe(webpack({
+      mode: NODE_ENV,
+      devtool: IS_PROD ? false : 'cheap-module-source-map',
+      // watch: true,
+      // output: {
+      //   // filename: '[name].[contenthash].js'
+      // },
+      module: {
+        rules: [
+          {
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+              loader: 'babel-loader' // babel有单独的配置文件 babel.config.js
+            }
+          }
+        ]
+      }
     }))
     .pipe(gulp.dest(path.join(config.static, '/js/')));
 });

@@ -4,6 +4,9 @@ extends ./layout.pug
 block head-style-custom
   link(href="css/pages/home.css", rel="stylesheet")
 
+block bottom-script-custom
+  script(src="js/pages/home.js")
+
 block body
   .container
     h1.text-center= title
@@ -24,8 +27,8 @@ block body
 
     - var pets = ['猫', '狗', '牛']
     ul.list-group
-    each petName in pets
-      li.list-group-item= petName
+      each petName in pets
+        li.list-group-item= petName
 
     
     h2 雪碧图
