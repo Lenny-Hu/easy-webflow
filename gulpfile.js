@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-05 11:05:51
+ * @LastEditTime: 2019-09-05 13:23:30
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -14,6 +14,9 @@ const reload = browserSync.reload;
 
 const spritesmith = require('gulp.spritesmith');
 const image = require('gulp-image');
+
+const buffer = require('vinyl-buffer');
+const merge = require('merge-stream');
 
 const del = require('del');
 
@@ -51,20 +54,31 @@ gulp.task('clean', async (cb) => {
 
 // 图片优化(仅生产环境)
 gulp.task('image', () => {
-  return gulp.src(['./app/images/**/*', '!./app/images/sprite/*'], {
+  return gulp.src(['./app/images/**/*', '!./app/images/sprites/*'], {
     base: './app'
   })
     .pipe(image())
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest(config.static));
 });
 
 // 雪碧图
 gulp.task('sprite', () => {
-  var spriteData = gulp.src('./app/images/sprites/*.png').pipe(image()).pipe(spritesmith({
+  let dest = path.join(config.static, '/css/');
+  let spriteData = gulp.src('./app/images/sprites/*.png').pipe(spritesmith({
     imgName: 'sprite.png',
     cssName: 'sprite.css'
-  }));
-  return spriteData.pipe(gulp.dest(path.join(config.static, '/css/')));
+  }))
+
+  let imgStream = spriteData.img
+    .pipe(buffer())
+    .pipe(image())
+    .pipe(gulp.dest(dest));
+
+  let cssStream = spriteData.css
+    .pipe(postcss([cssnano()]))
+    .pipe(gulp.dest(dest));
+  
+  return merge(imgStream, cssStream);
 });
 
 // sass编译
@@ -130,5 +144,5 @@ gulp.task('copy', () => {
 
 
 //
-const tasks = IS_PROD ? ['clean', 'image', gulp.parallel('sass', 'webpack', 'sprite')] : ['clean', gulp.parallel('sass', 'webpack', 'sprite')];
+const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack')] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
 gulp.task('default', gulp.series(...tasks));

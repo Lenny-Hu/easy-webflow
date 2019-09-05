@@ -38,9 +38,11 @@
     "gulp-sass": "^4.0.2",
     "gulp-sftp": "^0.1.5",
     "gulp.spritesmith": "^6.10.1",
+    "merge-stream": "^2.0.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.12.0",
     "pug": "^2.0.4",
+    "vinyl-buffer": "^1.0.1",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^5.2.1"
   },
