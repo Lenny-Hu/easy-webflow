@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-04 17:59:13
+ * @LastEditTime: 2019-09-05 10:24:27
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -79,8 +79,14 @@ gulp.task('webpack', () => {
   return gulp.src('./app/scripts/**/*.js', {
     base: './app/scripts'
   })
-    // .pipe(babel())
-    .pipe(named())
+    .pipe(named((file) => {
+      // 让scripts目录下的每个js文件单独输出到对应的js目录下
+      let [ filePath ] = file.history;
+      let dir = path.join(file._cwd, file._base);
+      let extname = path.extname(filePath);
+      filePath = filePath.replace(dir, '').slice(1, -(extname.length));
+      return filePath;
+    }))
     .pipe(webpack({
       mode: NODE_ENV,
       devtool: IS_PROD ? false : 'cheap-module-source-map',
