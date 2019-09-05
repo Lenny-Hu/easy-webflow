@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-05 10:24:27
+ * @LastEditTime: 2019-09-05 11:05:51
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -31,14 +31,22 @@ const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const IS_PROD = NODE_ENV === 'prodaction';
+const IS_PROD = NODE_ENV === 'production';
 
 const config = require('./config')[NODE_ENV];
 
+console.log(`==当前环境为 [${NODE_ENV}][IS_PROD: ${IS_PROD}]==`);
+console.log('[使用的配置]', config);
+
 // 清理
-gulp.task('clean', () => {
+gulp.task('clean', async (cb) => {
   let globs = IS_PROD ? ['dist/**/*'] : ['app/css/**/*', 'app/js/**/*'];
-  return del(globs);
+  console.log(globs);
+  let deletedPaths = await del(globs);
+  console.log('----删除的文件----');
+  console.log(deletedPaths.join('\n'));
+  console.log('----删除的文件----');
+  return cb;
 });
 
 // 图片优化(仅生产环境)
@@ -120,4 +128,7 @@ gulp.task('copy', () => {
 
 // 缓存
 
-gulp.task('default', gulp.series('clean'));
+
+//
+const tasks = IS_PROD ? ['clean', 'image', gulp.parallel('sass', 'webpack', 'sprite')] : ['clean', gulp.parallel('sass', 'webpack', 'sprite')];
+gulp.task('default', gulp.series(...tasks));
