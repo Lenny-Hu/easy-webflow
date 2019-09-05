@@ -9,18 +9,22 @@ html(lang="zh-cn")
     title #{title}
 
     block head-style
+      <!-- build:css css/hd-lib.css -->
       link(href="node_modules/bootstrap/dist/css/bootstrap.css", rel="stylesheet")
       link(href="node_modules/bootstrap/dist/css/bootstrap.css", rel="stylesheet")
       link(href="lib/font-awesome.css", rel="stylesheet")
       link(href="css/main.css", rel="stylesheet")
       link(href="css/sprite.css", rel="stylesheet")
+      <!-- endbuild -->
 
     block head-style-custom
 
     block head-script
+      <!-- build:js js/hd-lib.js -->
       script(src="node_modules/jquery/dist/jquery.js")
       script(src="node_modules/vue/dist/vue.js")
       script(src="node_modules/bootstrap/dist/js/bootstrap.js")
+      <!-- endbuild -->
 
     block head-script-custom
 
@@ -35,6 +39,8 @@ html(lang="zh-cn")
       include ./parts/footer.pug
       
     block bottom-script
+      <!-- build:js js/bd-lib.js -->
       script(src="js/main.js")
+      <!-- endbuild -->
 
     block bottom-script-custom

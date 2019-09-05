@@ -1,6 +1,7 @@
 {
   "scripts": {
     "prod": "cross-env NODE_ENV=production gulp",
+    "view": "cross-env NODE_ENV=production gulp view",
     "dev": "cross-env NODE_ENV=development gulp"
   },
   "devDependencies": {
@@ -33,10 +34,14 @@
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^3.0.0",
     "gulp-image": "^5.1.0",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-sftp": "^0.1.5",
+    "gulp-uglify": "^3.0.2",
+    "gulp-useref": "^3.1.6",
     "gulp.spritesmith": "^6.10.1",
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.0",

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-05 13:23:30
+ * @LastEditTime: 2019-09-05 15:37:24
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -28,7 +28,12 @@ const cssnano = require('cssnano');
 
 // const babel = require('gulp-babel');
 const webpack = require('webpack-stream');
+const uglify = require('gulp-uglify');
+
+const gulpif = require('gulp-if');
 const named = require('vinyl-named');
+
+const useref = require('gulp-useref');
 
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
@@ -133,7 +138,38 @@ gulp.task('webpack', () => {
 
 // 资源拷贝(生产环境)
 gulp.task('copy', () => {
+  return gulp.src([
+    './app/lib/**/*',
+    '!./app/lib/README.md'
+  ], {
+    base: './app/lib'
+  })
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.css', postcss([cssnano()])))
+    .pipe(gulp.dest(path.join(config.static, '/lib/')));
+});
 
+// 处理视图（生产环境）
+gulp.task('view', () => {
+  // // 将视图拷贝到dist目录
+  return gulp.src([
+    './server/views/**/*.pug'
+  ], {
+    base: './server/views/'
+  })
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.css', postcss([cssnano()])))
+    .pipe(gulp.dest(config.view));
+
+  // return gulp.src([
+  //   `${config.view}/**/*.pug`
+  // ])
+  //   .pipe(useref({
+  //     searchPath: './app'
+  //   }))
+  //   .pipe(gulpif('*.js', uglify()))
+  //   .pipe(gulpif('*.css', postcss([cssnano()])))
+  //   .pipe(gulp.dest(config.static));
 });
 
 // sftp
@@ -142,7 +178,6 @@ gulp.task('copy', () => {
 
 // 缓存
 
-
 //
-const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack')] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
+const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view'] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
 gulp.task('default', gulp.series(...tasks));
