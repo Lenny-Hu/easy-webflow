@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-05 15:37:24
+ * @LastEditTime: 2019-09-10 17:53:04
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -140,37 +140,58 @@ gulp.task('webpack', () => {
 gulp.task('copy', () => {
   return gulp.src([
     './app/lib/**/*',
+    './app/fonts/**/*',
     '!./app/lib/README.md'
   ], {
-    base: './app/lib'
+    base: './app'
   })
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', postcss([cssnano()])))
-    .pipe(gulp.dest(path.join(config.static, '/lib/')));
+    .pipe(gulp.dest(path.join(config.static)));
 });
 
 // 处理视图（生产环境）
-gulp.task('view', () => {
-  // // 将视图拷贝到dist目录
+gulp.task('view-build', () => {
+  // 将视图拷贝到dist目录
   return gulp.src([
     './server/views/**/*.pug'
   ], {
     base: './server/views/'
   })
+    .pipe(useref({
+      searchPath: './app'
+    }))
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', postcss([cssnano()])))
     .pipe(gulp.dest(config.view));
-
-  // return gulp.src([
-  //   `${config.view}/**/*.pug`
-  // ])
-  //   .pipe(useref({
-  //     searchPath: './app'
-  //   }))
-  //   .pipe(gulpif('*.js', uglify()))
-  //   .pipe(gulpif('*.css', postcss([cssnano()])))
-  //   .pipe(gulp.dest(config.static));
 });
+
+// 拷贝视图产生的静态资源到app目录（生产环境）
+gulp.task('view-static', () => {
+  let globs = [
+    path.normalize(`${config.view}/css/**/*`),
+    path.normalize(`${config.view}/js/**/*`)
+  ];
+  return gulp.src(globs, {
+    base: config.view
+  })
+    .pipe(gulp.dest(config.static));
+});
+
+gulp.task('view-clean', async (cb) => {
+  let globs = [
+    './dist/server/views/css',
+    './dist/server/views/js'
+  ];
+
+  let deletedPaths = await del(globs);
+  console.log('----删除的文件----');
+  console.log(deletedPaths.join('\n'));
+  console.log('----删除的文件----');
+  return cb;
+});
+
+gulp.task('view', gulp.series('view-build', 'view-static', 'view-clean'));
 
 // sftp
 
