@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:13:28
- * @LastEditTime: 2019-09-11 17:22:23
+ * @LastEditTime: 2019-09-11 17:49:53
  * @LastEditors: Please set LastEditors
  */
 console.log('这里是全局的js');
@@ -163,6 +163,6 @@ const headerText3 = obj.b ?? 'b';
 const headerText4 = obj.c ?? 'c';
 console.log('Null 判断运算符', headerText1, headerText2, headerText3, headerText4);
 
-console.log('测试下watch..333333.');
+console.log('测试下watch..333333444.');
 
 export default _;

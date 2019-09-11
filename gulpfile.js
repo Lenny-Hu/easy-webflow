@@ -2,11 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 17:20:41
+ * @LastEditTime: 2019-09-11 17:57:29
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
 const path = require('path');
+const request = require('request');
 
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
@@ -90,7 +91,7 @@ gulp.task('sprite', () => {
 
   let imgStream = spriteData.img
     .pipe(buffer())
-    .pipe(image())
+    .pipe(gulpif(IS_PROD, image()))
     .pipe(gulp.dest(config.static));
 
   let cssStream = spriteData.css
@@ -283,11 +284,34 @@ gulp.task('sftp', () => {
     .pipe(sftp({ ...config.sftp }));
 });
 
+// 静态服务器
+gulp.task('browser-sync', () => {
+  browserSync.init({
+    open: true,
+    // proxy: 'http://127.0.0.1:9000'
+    server: {
+      baseDir: './app',
+      routes: {
+        '/css': 'css',
+        '/js': 'js',
+        '/images': 'images',
+        '/lib': 'lib',
+        '/node_modules': 'node_modules'
+      },
+      middleware: function (req, res, next) {
+        console.log('Hi from middleware', req.url);
+        req.pipe(request('http://127.0.0.1:9000')).pipe(res);
+        // next();
+      }
+    }
+  });
+});
+
 // 文件监听
 if (!IS_PROD) {
   gulp.watch('./app/styles/**/*.scss', gulp.series('sass'));
   gulp.watch('./app/images/sprites/**/*.png', gulp.series('sprite'));
 }
 
-const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view', 'cache', 'sftp'] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
+const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view', 'cache', 'sftp'] : ['clean', 'sprite', gulp.parallel('sass', 'browser-sync', 'webpack')];
 gulp.task('default', gulp.series(...tasks));
