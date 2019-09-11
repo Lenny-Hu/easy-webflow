@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 10:59:57
+ * @LastEditTime: 2019-09-11 13:00:32
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -37,6 +37,8 @@ const named = require('vinyl-named');
 const useref = require('gulp-useref');
 const rev = require('gulp-rev'); // 添加hash后缀
 const revCollector = require('gulp-rev-collector'); // 根据rev生成的manifest.json文件中的映射, 去替换文件名称, 也可以替换路径
+const override = require('gulp-rev-css-url'); // 替换html\css文件中的url路径为资源被hash后的新路径
+const revdel = require('gulp-rev-delete-original'); // 删除rev使用的原始资源
 
 const minimist = require('minimist'); // 命令行参数解析
 const argv = minimist(process.argv.slice(2));
@@ -71,20 +73,21 @@ gulp.task('image', () => {
 
 // 雪碧图
 gulp.task('sprite', () => {
-  let dest = path.join(config.static, '/css/');
   let spriteData = gulp.src('./app/images/sprites/*.png').pipe(spritesmith({
-    imgName: 'sprite.png',
-    cssName: 'sprite.css'
+    imgName: 'images/sprite.png',
+    cssName: 'css/sprite.css',
+    padding: 2
   }))
 
   let imgStream = spriteData.img
     .pipe(buffer())
     .pipe(image())
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(config.static));
 
   let cssStream = spriteData.css
     .pipe(postcss([cssnano()]))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(config.static))
+    .pipe(gulpif(IS_PROD, gulp.dest('./app/')));
   
   return merge(imgStream, cssStream);
 });
@@ -102,7 +105,8 @@ gulp.task('sass', () => {
     .pipe(cache('sass'))
     .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError)) // 输出标准格式，方便后处理
     .pipe(postcss(plugins))
-    .pipe(gulp.dest(path.join(config.static, '/css/')));
+    .pipe(gulp.dest('./app/css/'))
+    .pipe(gulpif(IS_PROD, gulp.dest(path.join(config.static, '/css/'))));
 });
 
 // es6编译 => ie9+
@@ -137,7 +141,9 @@ gulp.task('webpack', () => {
         ]
       }
     }))
-    .pipe(gulp.dest(path.join(config.static, '/js/')));
+    .pipe(gulp.dest('./app/js/'))
+    // 由于存在页面中直接引用css js资源，所以编译css\js时。必定要输出资源到app目录下，避免useref时出现问题
+    .pipe(gulpif(IS_PROD, gulp.dest(path.join(config.static, '/js/'))));
 });
 
 // 资源拷贝(生产环境)
@@ -201,11 +207,18 @@ gulp.task('view', gulp.series('view-build', 'view-static', 'view-clean'));
 gulp.task('cache-build', () => {
   return gulp.src([
     `./dist/app/**/*.css`,
-    `./dist/app/**/*.js`
+    `./dist/app/**/*.js`,
+    `./dist/app/**/*.png`,
+    `./dist/app/**/*.jpg`,
+    `./dist/app/**/*.jpeg`,
+    `./dist/app/**/*.gif`,
+    `./dist/app/fonts/**/*`
   ], {
     base: './dist/app'
   })
     .pipe(rev())
+    .pipe(override()) // 替换html\css文件中的url路径为资源被hash后的新路径
+    .pipe(revdel()) // 删除生成缓存的原始资源
     .pipe(gulp.dest('./dist/app'))
     .pipe(rev.manifest()) // 生成文件映射
     .pipe(gulp.dest('./dist/rev')); // 将映射文件导出
