@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 13:50:27
+ * @LastEditTime: 2019-09-11 16:08:35
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -39,7 +39,13 @@ const rev = require('gulp-rev'); // 添加hash后缀
 const revCollector = require('gulp-rev-collector'); // 根据rev生成的manifest.json文件中的映射, 去替换文件名称, 也可以替换路径
 const override = require('gulp-rev-css-url'); // 替换html\css文件中的url路径为资源被hash后的新路径
 const revdel = require('gulp-rev-delete-original'); // 删除rev使用的原始资源
-const revAll = require('gulp-rev-all');
+// const revAll = require('gulp-rev-all');
+const replace = require('gulp-replace');
+
+// 下列3个对pug文件无效
+// const versionNumber = require('gulp-version-number');
+// const versionAppend = require('gulp-version-append');
+// const gulpHtmlVersion = require('gulp-html-version');
 
 const minimist = require('minimist'); // 命令行参数解析
 const argv = minimist(process.argv.slice(2));
@@ -204,35 +210,35 @@ gulp.task('view-clean', async (cb) => {
 
 gulp.task('view', gulp.series('view-build', 'view-static', 'view-clean'));
 
-// 静态资源缓存控制
-gulp.task('cache-build', () => {
-  return gulp.src([
-    `./dist/app/**/*.css`,
-    `./dist/app/**/*.js`,
-    `./dist/app/**/*.png`,
-    `./dist/app/**/*.jpg`,
-    `./dist/app/**/*.jpeg`,
-    `./dist/app/**/*.gif`,
-    `./dist/app/fonts/**/*`
-  ], {
-    base: './dist/app'
-  })
-    .pipe(rev())
-    .pipe(override()) // 替换html\css文件中的url路径为资源被hash后的新路径
-    .pipe(revdel()) // 删除生成缓存的原始资源
-    .pipe(gulp.dest('./dist/app'))
-    .pipe(rev.manifest()) // 生成文件映射
-    .pipe(gulp.dest('./dist/rev')); // 将映射文件导出
-});
+// 静态资源缓存控制1；修改文件名称
+// gulp.task('cache-build', () => {
+//   return gulp.src([
+//     `./dist/app/**/*.css`,
+//     `./dist/app/**/*.js`,
+//     `./dist/app/**/*.png`,
+//     `./dist/app/**/*.jpg`,
+//     `./dist/app/**/*.jpeg`,
+//     `./dist/app/**/*.gif`,
+//     `./dist/app/fonts/**/*`
+//   ], {
+//     base: './dist/app'
+//   })
+//     .pipe(rev())
+//     .pipe(override()) // 替换html\css文件中的url路径为资源被hash后的新路径
+//     .pipe(revdel()) // 删除生成缓存的原始资源
+//     .pipe(gulp.dest('./dist/app'))
+//     .pipe(rev.manifest()) // 生成文件映射
+//     .pipe(gulp.dest('./dist/rev')); // 将映射文件导出
+// });
 
-// 路径替换
-gulp.task('cache-replace', () => {
-  return gulp.src([`./dist/rev/**/*.json`, './dist/server/views/**/*.pug'], {
-  }).pipe(revCollector({
-    replaceReved: true
-  })).pipe(gulp.dest('./dist/server/views'));
-});
-gulp.task('cache', gulp.series('cache-build', 'cache-replace'));
+// // 路径替换
+// gulp.task('cache-replace', () => {
+//   return gulp.src([`./dist/rev/**/*.json`, './dist/server/views/**/*.pug'], {
+//   }).pipe(revCollector({
+//     replaceReved: true
+//   })).pipe(gulp.dest('./dist/server/views'));
+// });
+// gulp.task('cache', gulp.series('cache-build', 'cache-replace'));
 
 // gulp-rev-all 插件打处理后的路径不对。
 // gulp.task('cache', () => {
@@ -245,6 +251,28 @@ gulp.task('cache', gulp.series('cache-build', 'cache-replace'));
 //   }))
 //     .pipe(gulp.dest('./dist'));
 // });
+
+// 缓存处理方式2：添加时间戳查询参数，基于gulp-replace，暂不能替换css中字体图标的引用
+gulp.task('cache-html', () => {
+  return gulp.src([
+    './dist/server/views/**/*.pug'
+  ], {
+    base: './dist/server/views'
+  })
+    .pipe(replace(new RegExp('(href|src=["\'])(\\S+\\.)(css|js|jpg|png|gif)(["\'])', 'gi'), `$1$2$3?v=${Date.now()}$4`))
+    .pipe(gulp.dest('./dist/server/views'));
+});
+
+gulp.task('cache-css', () => {
+  return gulp.src([
+    './dist/app/**/*.css'
+  ], {
+    base: './dist/app'
+  })
+    .pipe(replace(new RegExp('(url\\(["\']?\\S+\\.)(jpg|gif|png)(["\']?\\))', 'ig'), `$1$2?v=${Date.now()}$3`))
+    .pipe(gulp.dest('./dist/app'));
+});
+gulp.task('cache', gulp.parallel('cache-html', 'cache-css'));
 
 // sftp
 
