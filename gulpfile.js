@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 16:08:35
+ * @LastEditTime: 2019-09-11 17:20:41
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -46,6 +46,8 @@ const replace = require('gulp-replace');
 // const versionNumber = require('gulp-version-number');
 // const versionAppend = require('gulp-version-append');
 // const gulpHtmlVersion = require('gulp-html-version');
+
+const sftp = require('gulp-sftp');
 
 const minimist = require('minimist'); // 命令行参数解析
 const argv = minimist(process.argv.slice(2));
@@ -132,7 +134,7 @@ gulp.task('webpack', () => {
     .pipe(webpack({
       mode: NODE_ENV,
       devtool: IS_PROD ? false : 'cheap-module-source-map',
-      // watch: true,
+      watch: !IS_PROD,
       // output: {
       //   // filename: '[name].[contenthash].js'
       // },
@@ -275,8 +277,17 @@ gulp.task('cache-css', () => {
 gulp.task('cache', gulp.parallel('cache-html', 'cache-css'));
 
 // sftp
+gulp.task('sftp', () => {
+  console.log({ ...config.sftp });
+  return gulp.src('./dist/**/*')
+    .pipe(sftp({ ...config.sftp }));
+});
 
 // 文件监听
+if (!IS_PROD) {
+  gulp.watch('./app/styles/**/*.scss', gulp.series('sass'));
+  gulp.watch('./app/images/sprites/**/*.png', gulp.series('sprite'));
+}
 
-const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view', 'cache'] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
+const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view', 'cache', 'sftp'] : ['clean', 'sprite', gulp.parallel('sass', 'webpack')];
 gulp.task('default', gulp.series(...tasks));
