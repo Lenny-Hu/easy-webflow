@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 13:00:32
+ * @LastEditTime: 2019-09-11 13:50:27
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs');
@@ -39,6 +39,7 @@ const rev = require('gulp-rev'); // 添加hash后缀
 const revCollector = require('gulp-rev-collector'); // 根据rev生成的manifest.json文件中的映射, 去替换文件名称, 也可以替换路径
 const override = require('gulp-rev-css-url'); // 替换html\css文件中的url路径为资源被hash后的新路径
 const revdel = require('gulp-rev-delete-original'); // 删除rev使用的原始资源
+const revAll = require('gulp-rev-all');
 
 const minimist = require('minimist'); // 命令行参数解析
 const argv = minimist(process.argv.slice(2));
@@ -223,6 +224,7 @@ gulp.task('cache-build', () => {
     .pipe(rev.manifest()) // 生成文件映射
     .pipe(gulp.dest('./dist/rev')); // 将映射文件导出
 });
+
 // 路径替换
 gulp.task('cache-replace', () => {
   return gulp.src([`./dist/rev/**/*.json`, './dist/server/views/**/*.pug'], {
@@ -231,6 +233,18 @@ gulp.task('cache-replace', () => {
   })).pipe(gulp.dest('./dist/server/views'));
 });
 gulp.task('cache', gulp.series('cache-build', 'cache-replace'));
+
+// gulp-rev-all 插件打处理后的路径不对。
+// gulp.task('cache', () => {
+//   return gulp.src([
+//     './dist/**/*'
+//   ]).pipe(revAll.revision({
+//     dontRenameFile: [
+//       /.pug$/g
+//     ]
+//   }))
+//     .pipe(gulp.dest('./dist'));
+// });
 
 // sftp
 
