@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-12 16:48:49
+ * @LastEditTime: 2019-09-12 17:17:56
  * @LastEditors: Please set LastEditors
  */
 const path = require('path');
@@ -11,6 +11,7 @@ const gulp = require('gulp');
 
 const { Server } = require('./server');
 const { Cache } = require('./cache');
+const { Clean } = require('./clean');
 
 const spritesmith = require('gulp.spritesmith'); // 生成雪碧图
 const image = require('gulp-image'); // 图片压缩
@@ -49,6 +50,8 @@ const config = require('../config')[NODE_ENV];
 
 const logger = new Logger(config);
 
+config.isProd = IS_PROD;
+
 // console.log(`==当前环境为 [${NODE_ENV}][IS_PROD: ${IS_PROD}]==`);
 // console.log('[使用的配置]', config);
 
@@ -56,12 +59,14 @@ logger.info(`[运行环境]`, NODE_ENV);
 logger.info(`[配置]`, config);
 
 // 清理
-gulp.task('clean', async (cb) => {
-  let globs = IS_PROD ? ['dist/**/*'] : ['app/css/**/*', 'app/js/**/*'];
-  let deletedPaths = await del(globs);
-  logger.info('[清理临时文件]', deletedPaths);
-  return cb;
-});
+const clean = new Clean(config);
+// clean.del(['dist/**/*']);
+// gulp.task('clean', async (cb) => {
+//   let globs = IS_PROD ? ['dist/**/*'] : ['app/css/**/*', 'app/js/**/*'];
+//   let deletedPaths = await del(globs);
+//   logger.info('[清理临时文件]', deletedPaths);
+//   return cb;
+// });
 
 // 图片优化(仅生产环境)
 gulp.task('image', () => {
@@ -195,8 +200,9 @@ gulp.task('view-clean', async (cb) => {
     './dist/server/views/js'
   ];
 
-  let deletedPaths = await del(globs);
-  logger.info('[清理临时文件]', deletedPaths);
+  await clean.del(globs);
+  // let deletedPaths = await del(globs);
+  // logger.info('[清理临时文件]', deletedPaths);
   return cb;
 });
 
@@ -226,7 +232,7 @@ if (!IS_PROD) {
 
 if (IS_PROD) {
   exports.default = gulp.series(
-    'clean', 'image', 'sprite',
+    clean.delTask, 'image', 'sprite',
     gulp.parallel('sass', 'webpack', 'copy'),
     'view',
     // gulp.parallel(cache.viewByQuery, cache.cssByQuery),
@@ -235,7 +241,7 @@ if (IS_PROD) {
   );
 } else {
   exports.default = gulp.series(
-    'clean', 'sprite',
+    clean.delTask, 'sprite',
     gulp.parallel('sass', 'webpack', browserSync)
   );
 }
