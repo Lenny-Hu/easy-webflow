@@ -2,13 +2,15 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-11 17:10:37
+ * @LastEditTime: 2019-09-12 14:35:35
  * @LastEditors: Please set LastEditors
  */
 const path = require('path');
 
 module.exports = {
   development: {
+    debug: true,
+    host: 'localhost',
     prot: 9000,
     static: path.join(__dirname, '../app'),
     view: path.join(__dirname, '../server/views/'),
@@ -21,6 +23,8 @@ module.exports = {
     }
   },
   production: {
+    debug: false,
+    host: 'localhost',
     prot: 9000,
     static: path.join(__dirname, '../dist/app/'),
     view: path.join(__dirname, '../dist/server/views/'),

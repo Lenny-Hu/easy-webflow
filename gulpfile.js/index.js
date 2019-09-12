@@ -2,16 +2,15 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-11 17:57:29
+ * @LastEditTime: 2019-09-12 16:48:49
  * @LastEditors: Please set LastEditors
  */
-const fs = require('fs');
 const path = require('path');
-const request = require('request');
 
 const gulp = require('gulp');
-const browserSync = require('browser-sync').create();
-const reload = browserSync.reload;
+
+const { Server } = require('./server');
+const { Cache } = require('./cache');
 
 const spritesmith = require('gulp.spritesmith'); // 生成雪碧图
 const image = require('gulp-image'); // 图片压缩
@@ -20,7 +19,7 @@ const buffer = require('vinyl-buffer');
 const merge = require('merge-stream');
 
 const del = require('del'); // 文件删除
-const cache = require('gulp-cached'); // 只传递更改过的文件，减少编译时间
+const gulpCache = require('gulp-cached'); // 只传递更改过的文件，减少编译时间
 
 const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
@@ -28,7 +27,6 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano'); // 优化css
 
-// const babel = require('gulp-babel');
 const webpack = require('webpack-stream');
 const uglify = require('gulp-uglify');
 
@@ -36,39 +34,32 @@ const gulpif = require('gulp-if');
 const named = require('vinyl-named');
 
 const useref = require('gulp-useref');
-const rev = require('gulp-rev'); // 添加hash后缀
-const revCollector = require('gulp-rev-collector'); // 根据rev生成的manifest.json文件中的映射, 去替换文件名称, 也可以替换路径
-const override = require('gulp-rev-css-url'); // 替换html\css文件中的url路径为资源被hash后的新路径
-const revdel = require('gulp-rev-delete-original'); // 删除rev使用的原始资源
-// const revAll = require('gulp-rev-all');
-const replace = require('gulp-replace');
-
-// 下列3个对pug文件无效
-// const versionNumber = require('gulp-version-number');
-// const versionAppend = require('gulp-version-append');
-// const gulpHtmlVersion = require('gulp-html-version');
 
 const sftp = require('gulp-sftp');
 
 const minimist = require('minimist'); // 命令行参数解析
 const argv = minimist(process.argv.slice(2));
 
+const { Logger } = require('./logger');
+
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const IS_PROD = NODE_ENV === 'production';
 
-const config = require('./config')[NODE_ENV];
+const config = require('../config')[NODE_ENV];
 
-console.log(`==当前环境为 [${NODE_ENV}][IS_PROD: ${IS_PROD}]==`);
-console.log('[使用的配置]', config);
+const logger = new Logger(config);
+
+// console.log(`==当前环境为 [${NODE_ENV}][IS_PROD: ${IS_PROD}]==`);
+// console.log('[使用的配置]', config);
+
+logger.info(`[运行环境]`, NODE_ENV);
+logger.info(`[配置]`, config);
 
 // 清理
 gulp.task('clean', async (cb) => {
   let globs = IS_PROD ? ['dist/**/*'] : ['app/css/**/*', 'app/js/**/*'];
-  console.log(globs);
   let deletedPaths = await del(globs);
-  console.log('----删除的文件----');
-  console.log(deletedPaths.join('\n'));
-  console.log('----删除的文件----');
+  logger.info('[清理临时文件]', deletedPaths);
   return cb;
 });
 
@@ -112,7 +103,7 @@ gulp.task('sass', () => {
   return gulp.src(['./app/styles/**/*.scss'], {
     base: './app/styles'
   })
-    .pipe(cache('sass'))
+    .pipe(gulpCache('sass'))
     .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError)) // 输出标准格式，方便后处理
     .pipe(postcss(plugins))
     .pipe(gulp.dest('./app/css/'))
@@ -205,107 +196,27 @@ gulp.task('view-clean', async (cb) => {
   ];
 
   let deletedPaths = await del(globs);
-  console.log('----删除的文件----');
-  console.log(deletedPaths.join('\n'));
-  console.log('----删除的文件----');
+  logger.info('[清理临时文件]', deletedPaths);
   return cb;
 });
 
 gulp.task('view', gulp.series('view-build', 'view-static', 'view-clean'));
 
-// 静态资源缓存控制1；修改文件名称
-// gulp.task('cache-build', () => {
-//   return gulp.src([
-//     `./dist/app/**/*.css`,
-//     `./dist/app/**/*.js`,
-//     `./dist/app/**/*.png`,
-//     `./dist/app/**/*.jpg`,
-//     `./dist/app/**/*.jpeg`,
-//     `./dist/app/**/*.gif`,
-//     `./dist/app/fonts/**/*`
-//   ], {
-//     base: './dist/app'
-//   })
-//     .pipe(rev())
-//     .pipe(override()) // 替换html\css文件中的url路径为资源被hash后的新路径
-//     .pipe(revdel()) // 删除生成缓存的原始资源
-//     .pipe(gulp.dest('./dist/app'))
-//     .pipe(rev.manifest()) // 生成文件映射
-//     .pipe(gulp.dest('./dist/rev')); // 将映射文件导出
-// });
-
-// // 路径替换
-// gulp.task('cache-replace', () => {
-//   return gulp.src([`./dist/rev/**/*.json`, './dist/server/views/**/*.pug'], {
-//   }).pipe(revCollector({
-//     replaceReved: true
-//   })).pipe(gulp.dest('./dist/server/views'));
-// });
-// gulp.task('cache', gulp.series('cache-build', 'cache-replace'));
-
-// gulp-rev-all 插件打处理后的路径不对。
-// gulp.task('cache', () => {
-//   return gulp.src([
-//     './dist/**/*'
-//   ]).pipe(revAll.revision({
-//     dontRenameFile: [
-//       /.pug$/g
-//     ]
-//   }))
-//     .pipe(gulp.dest('./dist'));
-// });
-
-// 缓存处理方式2：添加时间戳查询参数，基于gulp-replace，暂不能替换css中字体图标的引用
-gulp.task('cache-html', () => {
-  return gulp.src([
-    './dist/server/views/**/*.pug'
-  ], {
-    base: './dist/server/views'
-  })
-    .pipe(replace(new RegExp('(href|src=["\'])(\\S+\\.)(css|js|jpg|png|gif)(["\'])', 'gi'), `$1$2$3?v=${Date.now()}$4`))
-    .pipe(gulp.dest('./dist/server/views'));
-});
-
-gulp.task('cache-css', () => {
-  return gulp.src([
-    './dist/app/**/*.css'
-  ], {
-    base: './dist/app'
-  })
-    .pipe(replace(new RegExp('(url\\(["\']?\\S+\\.)(jpg|gif|png)(["\']?\\))', 'ig'), `$1$2?v=${Date.now()}$3`))
-    .pipe(gulp.dest('./dist/app'));
-});
-gulp.task('cache', gulp.parallel('cache-html', 'cache-css'));
+// 缓存
+const cache = new Cache(config);
 
 // sftp
 gulp.task('sftp', () => {
-  console.log({ ...config.sftp });
   return gulp.src('./dist/**/*')
     .pipe(sftp({ ...config.sftp }));
 });
 
 // 静态服务器
-gulp.task('browser-sync', () => {
-  browserSync.init({
-    open: true,
-    // proxy: 'http://127.0.0.1:9000'
-    server: {
-      baseDir: './app',
-      routes: {
-        '/css': 'css',
-        '/js': 'js',
-        '/images': 'images',
-        '/lib': 'lib',
-        '/node_modules': 'node_modules'
-      },
-      middleware: function (req, res, next) {
-        console.log('Hi from middleware', req.url);
-        req.pipe(request('http://127.0.0.1:9000')).pipe(res);
-        // next();
-      }
-    }
-  });
-});
+function browserSync (cb) {
+  const server = new Server(config);
+  server.init();
+  cb();
+}
 
 // 文件监听
 if (!IS_PROD) {
@@ -313,5 +224,18 @@ if (!IS_PROD) {
   gulp.watch('./app/images/sprites/**/*.png', gulp.series('sprite'));
 }
 
-const tasks = IS_PROD ? ['clean', 'image', 'sprite', gulp.parallel('sass', 'webpack', 'copy'), 'view', 'cache', 'sftp'] : ['clean', 'sprite', gulp.parallel('sass', 'browser-sync', 'webpack')];
-gulp.task('default', gulp.series(...tasks));
+if (IS_PROD) {
+  exports.default = gulp.series(
+    'clean', 'image', 'sprite',
+    gulp.parallel('sass', 'webpack', 'copy'),
+    'view',
+    // gulp.parallel(cache.viewByQuery, cache.cssByQuery),
+    gulp.series(cache.byHash, cache.renameByHash),
+    // 'sftp'
+  );
+} else {
+  exports.default = gulp.series(
+    'clean', 'sprite',
+    gulp.parallel('sass', 'webpack', browserSync)
+  );
+}
