@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-17 17:16:14
+ * @LastEditTime: 2019-09-17 17:43:48
  * @LastEditors: Please set LastEditors
  -->
  
 # gulp-demo
-使用gulp + webpack构建前端工作流
+使用gulp + webpack搭建前端工作流
 
 ## 目标
 
