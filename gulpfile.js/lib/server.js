@@ -1,25 +1,23 @@
 /*
- * @Description: 本地静态资源服务器
+ * @Description: In User Settings Edit
  * @Author: your name
- * @Date: 2019-09-12 14:38:10
- * @LastEditTime: 2019-09-12 16:00:51
+ * @Date: 2019-09-17 10:30:23
+ * @LastEditTime: 2019-09-17 10:34:17
  * @LastEditors: Please set LastEditors
  */
 const browserSync = require('browser-sync').create();
 const _ = require('lodash');
 const request = require('request');
-
-const _default = require('./default');
-const { Logger } = require('./logger');
+const { Logger } = require('../lib/logger');
 
 class Server {
   constructor (config, options = {}) {
-    this.options = _.merge(_default.browsersync, options);
+    this.options = _.merge(config.browsersync, options);
     this.config = config;
     this.logger = new Logger(config);
   }
 
-  middleware (req, res, next) {
+  proxy (req, res, next) {
     let notProxy = this.options.notProxyUrls.some(v => req.url.startsWith(v));
 
     this.logger.info('[browsersync]', req.method, req.url, '=>', notProxy ? '本地' : '代理');
@@ -31,7 +29,7 @@ class Server {
   }
 
   init () {
-    this.options.server.middleware = [ this.middleware.bind(this) ];
+    this.options.server.middleware = [ this.proxy.bind(this) ];
     browserSync.init(this.options);
   }
 }

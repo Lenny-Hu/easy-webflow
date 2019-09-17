@@ -2,18 +2,17 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-12 10:47:55
- * @LastEditTime: 2019-09-12 14:19:43
+ * @LastEditTime: 2019-09-17 10:22:40
  * @LastEditors: Please set LastEditors
  */
 // 日志打印
 const dayjs = require('dayjs');
 const c = require('ansi-colors');
-// const chalk = require('chalk');
 
 class Logger {
-  constructor (config) {
+  constructor (config = {}) {
     this.config = config;
-    this.debug = config.debug;
+    this.debug = config.debug || false;
     this.map = {
       log: 'green',
       info: 'cyan',
