@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-17 17:13:00
+ * @LastEditTime: 2019-09-17 17:16:14
  * @LastEditors: Please set LastEditors
  -->
  
@@ -66,9 +66,6 @@
 `npm run dev`
 
 > 启动开发服务，监听sass\es6并刷新浏览器
-
-### css
-
 
 ## 生产环境
 ---

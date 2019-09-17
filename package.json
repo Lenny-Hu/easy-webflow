@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "prod": "cross-env NODE_ENV=production gulp",
-    "test": "cross-env NODE_ENV=production gulp sprite",
+    "test": "cross-env NODE_ENV=production gulp sftp",
     "dev": "cross-env NODE_ENV=development gulp"
   },
   "devDependencies": {
@@ -53,7 +53,7 @@
     "gulp-rev-css-url": "^0.1.0",
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-sass": "^4.0.2",
-    "gulp-sftp": "^0.1.5",
+    "gulp-sftp": "git+https://git@github.com/webksde/gulp-sftp",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^3.1.6",
     "gulp-version-append": "^0.2.0",
