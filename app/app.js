@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-02 16:46:57
- * @LastEditTime: 2019-09-17 14:59:46
+ * @LastEditTime: 2019-09-17 17:06:11
  * @LastEditors: Please set LastEditors
  */
 
@@ -14,7 +14,7 @@ const static = require('koa-static');
 
 const app = new Koa();
 
-const config = require('../config')[process.env.NODE_ENV];
+const config = require('./config')[process.env.NODE_ENV];
 const router = require('./router');
 
 console.log('[环境和配置]', process.env.NODE_ENV, config);

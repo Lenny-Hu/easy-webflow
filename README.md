@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-17 14:53:24
+ * @LastEditTime: 2019-09-17 17:13:00
  * @LastEditors: Please set LastEditors
  -->
  
 # gulp-demo
-使用gulp构建以vue为主，不使用前端路由的项目
+使用gulp + webpack构建前端工作流
 
 ## 目标
 
@@ -35,12 +35,15 @@
   |-- router 后端路由
   |-- views 后端视图（pug）
   |-- app.js 入口文件
-|-- config 前后端打包配置
+  |-- config.js 后端配置文件
+|-- config gulp自定义配置文件
 |-- gulpfile.js gulp任务目录
   |-- lib gulp任务共用方法
   |-- tasks 具体任务（default.js默认任务依赖其他任务，故改名为z_开头以保证最后加载）
   |-- default-config.js 默认使用的配置，和config文件夹的配置合并传给任务
   |-- index.js gulp入口文件
+
+|-- dist 构建后的代码目录，用于生产环境（前后端），目录结构同app一样
 ```
 
 ## 前端
@@ -56,9 +59,13 @@
 ## 开发环境
 ---
 
+`cd app & npm run dev`
+
+> 启动后端服务
+
 `npm run dev`
 
-> 将所有资源编译或复制到.tmp目录中，同时启动开发服
+> 启动开发服务，监听sass\es6并刷新浏览器
 
 ### css
 
@@ -68,6 +75,6 @@
 
 `npm run prod`
 
-> 将所有资源打包压缩优化后到dist目录中，dist目录作为发布在生产环境的根目录
+> 将所有资源打包压缩优化后到dist目录，dist目录作为发布在生产环境资源
 
 
