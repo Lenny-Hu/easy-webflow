@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-02 16:46:57
- * @LastEditTime: 2019-09-10 16:41:28
+ * @LastEditTime: 2019-09-17 14:59:46
  * @LastEditors: Please set LastEditors
  */
 
@@ -19,8 +19,8 @@ const router = require('./router');
 
 console.log('[环境和配置]', process.env.NODE_ENV, config);
 
-app.use(views(config.view, { extension: 'pug' }));
-app.use(static(config.static));
+app.use(views(path.resolve('./views'), { extension: 'pug' }));
+app.use(static(path.resolve('./public')));
 
 app.use(router.routes());
 app.listen(config.prot, (e) => {

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "prod": "cross-env NODE_ENV=production gulp",
-    "test": "cross-env NODE_ENV=production gulp cache-query",
+    "test": "cross-env NODE_ENV=production gulp sprite",
     "dev": "cross-env NODE_ENV=development gulp"
   },
   "devDependencies": {

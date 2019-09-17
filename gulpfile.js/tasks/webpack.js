@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 11:24:53
- * @LastEditTime: 2019-09-17 11:30:21
+ * @LastEditTime: 2019-09-17 16:27:51
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -14,8 +14,8 @@ const config = require('../default-config');
 
 // es6编译 => ie9+
 gulp.task('webpack', () => {
-  return gulp.src(`${config.src.app}/${config.src.script}/**/*.js`, {
-    base: `${config.src.app}/${config.src.script}`
+  return gulp.src(`${config._src.script}/**/*.js`, {
+    base: `${config._src.script}`
   })
     .pipe(named((file) => {
       // 让scripts目录下的每个js文件单独输出到对应的js目录下
@@ -44,10 +44,10 @@ gulp.task('webpack', () => {
         ]
       }
     }))
-    .pipe(gulp.dest(`${config.src.app}/${config.temp.js}`))
+    .pipe(gulp.dest(`${config._src.js}`))
     // 由于存在页面中直接引用css js资源，所以编译css\js时。必定要输出资源到app目录下，避免useref时出现问题
     .pipe(gulpif(
       config.isProd,
-      gulp.dest(`${config.dest}/${config.src.app}/${config.temp.js}`)
+      gulp.dest(`${config._dest.js}`)
     ));
 });

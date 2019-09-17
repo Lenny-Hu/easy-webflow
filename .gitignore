@@ -10,9 +10,7 @@ dist/
 node_modules
 
 app/node_modules/
-app/css
-app/js
-app/images/sprite.png
-
-server/node_modules/
-
+app/public/node_modules/
+app/public/css
+app/public/js
+app/public/images/sprite.png

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-16 17:22:34
+ * @LastEditTime: 2019-09-17 14:59:57
  * @LastEditors: Please set LastEditors
  */
 const path = require('path');
@@ -12,8 +12,6 @@ module.exports = {
     debug: true,
     host: 'localhost',
     prot: 9000,
-    static: path.join(__dirname, '../app'),
-    view: path.join(__dirname, '../server/views/'),
     sftp: {
       host: '10.21.132.50',
       user: 'root',
@@ -26,8 +24,6 @@ module.exports = {
     debug: false,
     host: 'localhost',
     prot: 9000,
-    static: path.join(__dirname, '../dist/app/'),
-    view: path.join(__dirname, '../dist/server/views/'),
     sftp: {
       host: '10.21.132.50',
       user: 'root',

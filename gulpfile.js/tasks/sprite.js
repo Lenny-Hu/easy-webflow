@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 10:58:00
- * @LastEditTime: 2019-09-17 11:13:14
+ * @LastEditTime: 2019-09-17 16:14:18
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -17,9 +17,9 @@ const config = require('../default-config');
 
 // 雪碧图
 gulp.task('sprite', () => {
-  let spriteData = gulp.src(`${config.src.app}/${config.src.image}/sprites/*.png`).pipe(spritesmith({
+  let spriteData = gulp.src(`${config._src.image}/sprites/*.png`).pipe(spritesmith({
     imgName: `${config.src.image}/sprite.png`,
-    cssName: `${config.temp.css}/sprite.css`,
+    cssName: `${config.src.css}/sprite.css`,
     padding: 2
   }))
 
@@ -28,15 +28,15 @@ gulp.task('sprite', () => {
     .pipe(gulpif(config.isProd, image())) // 生产环境压缩
     .pipe(gulpif(
       config.isProd,
-      gulp.dest(`${config.dest}/${config.src.app}`),
-      gulp.dest(`${config.src.app}`)
+      gulp.dest(`${config._dest.public}`),
+      gulp.dest(`${config._src.public}`)
     ));
 
   // 由于雪碧图css会被页面引用最后打包，所以生产模式下要同时输出到css和dist下的css目录中
   let cssStream = spriteData.css
     .pipe(postcss([cssnano()]))
-    .pipe(gulp.dest(config.src.app))
-    .pipe(gulpif(config.isProd, gulp.dest(`${config.dest}/${config.src.app}`)));
+    .pipe(gulp.dest(config._src.public))
+    .pipe(gulpif(config.isProd, gulp.dest(`${config._dest.public}`)));
   
   return merge(imgStream, cssStream);
 });

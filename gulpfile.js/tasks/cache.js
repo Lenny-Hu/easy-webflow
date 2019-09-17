@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-12 15:50:28
- * @LastEditTime: 2019-09-17 13:29:36
+ * @LastEditTime: 2019-09-17 16:50:12
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -16,30 +16,23 @@ const config = require('../default-config');
 // 缓存处理方式1：文件名称添加哈希
 gulp.task('cache-hash-rev', () => {
   return gulp.src([
-    `${config.dest}/${config.src.app}/**/*`
-    // `./dist/app/**/*.css`,
-    // `./dist/app/**/*.js`,
-    // `./dist/app/**/*.png`,
-    // `./dist/app/**/*.jpg`,
-    // `./dist/app/**/*.jpeg`,
-    // `./dist/app/**/*.gif`,
-    // `./dist/app/fonts/**/*`
+    `${config._dest.public}/**/*`
   ], {
-    base: `${config.dest}/${config.src.app}`
+    base: config._dest.public
   })
     .pipe(rev())
     .pipe(override()) // 替换html\css文件中的url路径为资源被hash后的新路径
     .pipe(revdel()) // 删除生成缓存的原始资源
-    .pipe(gulp.dest(`${config.dest}/${config.src.app}`))
+    .pipe(gulp.dest(config._dest.public))
     .pipe(rev.manifest()) // 生成文件映射
-    .pipe(gulp.dest(`${config.dest}/rev`)); // 将映射文件导出
+    .pipe(gulp.dest(`${config._dest.root}/rev`)); // 将映射文件导出
 });
 
 gulp.task('cache-hash-replace', () => {
-  return gulp.src([`${config.dest}/rev/**/*.json`, `${config.dest}/${config.src.server}/views/**/*.pug`], {
+  return gulp.src([`${config._dest.root}/rev/**/*.json`, `${config._dest.view}/**/*.pug`], {
   }).pipe(revCollector({
     replaceReved: true
-  })).pipe(gulp.dest(`${config.dest}/${config.src.server}/views`));
+  })).pipe(gulp.dest(config._dest.view));
 });
 
 gulp.task('cache-hash', gulp.series('cache-hash-rev', 'cache-hash-replace'));
@@ -47,22 +40,22 @@ gulp.task('cache-hash', gulp.series('cache-hash-rev', 'cache-hash-replace'));
 // 缓存处理方式2：添加时间戳查询参数，基于gulp-replace，暂不能替换css中字体图标的引用
 gulp.task('cache-query-css', () => {
   return gulp.src([
-    `${config.dest}/${config.src.app}/**/*.css`
+    `${config._dest.public}/**/*.css`
   ], {
-    base: `${config.dest}/${config.src.app}`
+    base: config._dest.public
   })
     .pipe(replace(new RegExp('(url\\(["\']?\\S+\\.)(jpg|gif|png)(["\']?\\))', 'ig'), `$1$2?v=${Date.now()}$3`))
-    .pipe(gulp.dest(`${config.dest}/${config.src.app}`));
+    .pipe(gulp.dest(config._dest.public));
 });
 
 gulp.task('cache-query-view', () => {
   return gulp.src([
-    `${config.dest}/${config.src.server}/views/**/*.pug`
+    `${config._dest.view}/**/*.pug`
   ], {
-    base: `${config.dest}/${config.src.server}/views`
+    base: config._dest.view
   })
     .pipe(replace(new RegExp('(href|src=["\'])(\\S+\\.)(css|js|jpg|png|gif)(["\'])', 'gi'), `$1$2$3?v=${Date.now()}$4`))
-    .pipe(gulp.dest(`${config.dest}/${config.src.server}/views`));
+    .pipe(gulp.dest(config._dest.view));
 });
 
 gulp.task('cache-query', gulp.parallel('cache-query-view', 'cache-query-css'));
