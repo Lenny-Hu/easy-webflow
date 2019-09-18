@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-18 16:57:10
- * @LastEditTime: 2019-09-18 17:25:48
+ * @LastEditTime: 2019-09-18 17:33:18
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -24,6 +24,11 @@ module.exports = {
       .pipe(gulpCache('sass'))
       .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError)) // 输出标准格式，方便后处理
       .pipe(postcss(plugins))
+      .pipe(gulp.dest(dest));
+  },
+  cssmin (src, dest, options = {}) {
+    return gulp.src(src, options)
+      .pipe(postcss([cssnano()]))
       .pipe(gulp.dest(dest));
   }
 };

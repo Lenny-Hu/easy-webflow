@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-18 17:16:36
+ * @LastEditTime: 2019-09-18 18:00:38
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -30,7 +30,7 @@ if (config.isProd) {
   gulp.watch(`${config._src.image}/sprites/**/*.png`, gulp.series('sprite'));
 
   // 监听文件事件
-  // 压缩图片、压缩样式、压缩js、编译js、sftp、sass、拷贝、删除、
+  // 压缩js、编译js、sftp
   // 缓存
   if (config.watch && _.isFunction(config.watch.cb)) {
     let globs = [

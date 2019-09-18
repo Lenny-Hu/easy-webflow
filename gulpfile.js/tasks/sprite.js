@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 10:58:00
- * @LastEditTime: 2019-09-17 16:14:18
+ * @LastEditTime: 2019-09-18 17:57:50
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -40,4 +40,3 @@ gulp.task('sprite', () => {
   
   return merge(imgStream, cssStream);
 });
-
