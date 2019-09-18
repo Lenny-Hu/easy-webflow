@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 11:37:43
- * @LastEditTime: 2019-09-17 16:45:45
+ * @LastEditTime: 2019-09-18 16:43:26
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -13,7 +13,7 @@ const cssnano = require('cssnano'); // 优化css
 const useref = require('gulp-useref');
 const path = require('path');
 const config = require('../default-config');
-const { del } = require('../lib/del');
+const { del } = require('../lib/utils');
 const { Logger } = require('../lib/logger');
 const logger = new Logger(config);
 

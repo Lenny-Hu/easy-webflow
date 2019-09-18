@@ -2,11 +2,11 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-12 16:52:10
- * @LastEditTime: 2019-09-17 15:54:51
+ * @LastEditTime: 2019-09-18 16:43:14
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
-const { del } = require('../lib/del'); // 文件删除
+const { del } = require('../lib/utils'); // 文件删除
 const { Logger } = require('../lib/logger');
 const config = require('../default-config');
 

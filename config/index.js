@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-18 16:11:52
+ * @LastEditTime: 2019-09-18 16:38:35
  * @LastEditors: Please set LastEditors
  */
 const serverConfig = require('../app/config');
@@ -36,6 +36,7 @@ module.exports = {
       // globs: [], // 数组，可选参数，监听的文件路径，默认src.root目录
       cb (watcher, config) {
         // 注册监听项目根目录(src.root)下所有文件（除了node_modules）
+        // 可直接调用gulpfile.js/lib目录下所有的对外工具函数来实现各种操作
         watcher.on('add', (path) => {
           console.log('添加文件', path);
         });
