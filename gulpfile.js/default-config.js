@@ -2,12 +2,19 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-17 16:02:38
+ * @LastEditTime: 2019-09-18 10:44:09
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
 const path = require('path');
-const config = require('../config/index');
+const argv = require('minimist')(process.argv.slice(2));
+
+if (typeof argv.config !== 'string') {
+  console.error('[配置文件错误] --config 参数为必传参数');
+  process.exit(1);
+}
+
+const config = require(path.resolve(process.cwd(), argv.config));
 const userConfig = config[process.env.NODE_ENV];
 const { Logger } = require('./lib/logger');
 const utils = require('./lib/utils');

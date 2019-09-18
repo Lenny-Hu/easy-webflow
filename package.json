@@ -1,11 +1,24 @@
 {
-  "name": "gulp-demo",
+  "name": "easy-workflow",
+  "description": "",
   "version": "0.0.1",
+  "main": "index.js",
   "scripts": {
-    "prod": "cross-env NODE_ENV=production gulp",
-    "test": "cross-env NODE_ENV=production gulp sftp",
-    "dev": "cross-env NODE_ENV=development gulp"
+    "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
+    "prod": "cross-env NODE_ENV=production gulp --config config/index.js",
+    "test": "cross-env NODE_ENV=production gulp --config config/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lenny-Hu/gulp-demo"
+  },
+  "keywords": [],
+  "author": "Lenny Hu",
+  "license": "LGPL",
+  "bugs": {
+    "url": "https://github.com/Lenny-Hu/gulp-demo/issues"
+  },
+  "homepage": "https://github.com/Lenny-Hu",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",

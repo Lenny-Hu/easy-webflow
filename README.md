@@ -2,21 +2,54 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-17 17:43:48
+ * @LastEditTime: 2019-09-18 10:49:44
  * @LastEditors: Please set LastEditors
  -->
  
-# gulp-demo
-使用gulp + webpack搭建前端工作流
+# easy-workflow
+> 使用gulp + webpack搭建前端工作流
 
-## 目标
+## Install
+```
+npm install easy-workflow --save-dev
+```
+
+## Usage
+
+在`package.json`文件的`scripts`添加以下代码，使用`--config`指定自定义配置文件地址
+```
+"dev": "cross-env NODE_ENV=development gulp --config config/index.js",
+"prod": "cross-env NODE_ENV=production gulp --config config/index.js"
+```
+
+**开发环境**
+
+<!-- 启动后端服务
+```
+cd app & npm run dev
+``` -->
+
+启动开发服务，监听sass、es6并刷新浏览器
+
+```
+npm run dev
+```
+
+**生产环境**
+
+将所有资源打包压缩优化后到dist目录，dist目录作为发布在生产环境资源
+```
+npm run prod
+```
+
+## 特点
 
 - sass => css
 - es6|7 => js
-- typescript => js
-- css lint
-- js lint
-- html lint
+- typescript => js(暂无)
+- css lint(暂无)
+- js lint(暂无)
+- html lint(暂无)
 - 开发服务器、自动重载、动态插入样式 Browsersync
 - 根据配置文件启动开发服务或者构建生产环境资源
 
@@ -47,6 +80,10 @@
 ```
 
 ## 前端
+- jquery
+- bootstrap
+- vue
+- ...
 
 ## 后端
 
@@ -56,22 +93,5 @@
 - koa2-router
 - koa2-views
 
-## 开发环境
----
-
-`cd app & npm run dev`
-
-> 启动后端服务
-
-`npm run dev`
-
-> 启动开发服务，监听sass\es6并刷新浏览器
-
-## 生产环境
----
-
-`npm run prod`
-
-> 将所有资源打包压缩优化后到dist目录，dist目录作为发布在生产环境资源
-
-
+## License
+LGPL
