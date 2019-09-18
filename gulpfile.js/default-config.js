@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-18 10:44:09
+ * @LastEditTime: 2019-09-18 15:03:01
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -15,6 +15,7 @@ if (typeof argv.config !== 'string') {
 }
 
 const config = require(path.resolve(process.cwd(), argv.config));
+// const config = require('../config/index');
 const userConfig = config[process.env.NODE_ENV];
 const { Logger } = require('./lib/logger');
 const utils = require('./lib/utils');
@@ -91,7 +92,7 @@ const server = {
   }
 };
 
-res = _.merge(res, server, { browsersync: userConfig.browsersync || {} });
+res = _.merge(res, server, _.pick(userConfig, 'browsersync'));
 
 const logger = new Logger(res);
 logger.info(`[环境]`, process.env.NODE_ENV);
