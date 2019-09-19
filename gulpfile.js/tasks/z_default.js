@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-19 13:32:39
+ * @LastEditTime: 2019-09-19 13:35:24
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -36,7 +36,6 @@ if (config.isProd) {
   }
 
   // 监听文件事件
-  // sftp、缓存
   if (config.watch && _.isFunction(config.watch.cb)) {
     let globs = [
       `!${config._src.public}/node_modules/**/*`,
