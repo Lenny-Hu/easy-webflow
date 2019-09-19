@@ -47,7 +47,7 @@ npm run prod
 - sass => css
 - es6|7 => js
 - typescript => js(暂无)
-- css lint(暂无)
+- css stylelint
 - js lint(暂无)
 - html lint(暂无)
 - 开发服务器、自动重载、动态插入样式 Browsersync

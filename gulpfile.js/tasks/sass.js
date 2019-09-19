@@ -2,16 +2,10 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 11:15:39
- * @LastEditTime: 2019-09-18 17:21:54
+ * @LastEditTime: 2019-09-19 15:33:21
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
-// const sass = require('gulp-sass');
-// sass.compiler = require('node-sass');
-// const postcss = require('gulp-postcss');
-// const autoprefixer = require('autoprefixer');
-// const cssnano = require('cssnano'); // 优化css
-// const gulpCache = require('gulp-cached'); // 只传递更改过的文件，减少编译时间
 const gulpif = require('gulp-if');
 const config = require('../default-config');
 
@@ -23,7 +17,10 @@ gulp.task('sass', () => {
     `${config._src.style}/**/*.scss`,
     `${config._src.css}`,
     {
-      base: `${config._src.style}`
+      src: {
+        base: `${config._src.style}`
+      },
+      stylelintConfig: config.stylelintConfig
     }
   )
   // 页面内会引用相关css，生产环境打包时，需要输出两份

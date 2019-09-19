@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-19 13:35:24
+ * @LastEditTime: 2019-09-19 13:42:21
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -18,7 +18,7 @@ if (config.isProd) {
       'clean', 'image', 'sprite',
       gulp.parallel('sass', 'webpack', 'copy', 'copy-server'),
       'view', 'cache-query', 'sftp'
-    ]);      
+    ]);
   }
 
 } else {

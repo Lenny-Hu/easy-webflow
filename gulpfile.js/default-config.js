@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-19 11:51:48
+ * @LastEditTime: 2019-09-19 13:59:57
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -19,6 +19,7 @@ const config = require(path.resolve(process.cwd(), argv.config));
 const userConfig = config[process.env.NODE_ENV];
 const { Logger } = require('./lib/logger');
 const utils = require('./lib/utils');
+const stylelintConfig = require('../stylelint.config');
 
 const base = {
   useDufault: true, // 执行默认任务
@@ -36,7 +37,8 @@ const base = {
   },
   dest: 'dist',
   isProd: global.IS_PROD,
-  debug: false
+  debug: false,
+  stylelintConfig
 };
 
 let res = _.merge(base, userConfig);

@@ -2,33 +2,55 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-18 16:57:10
- * @LastEditTime: 2019-09-18 17:33:18
+ * @LastEditTime: 2019-09-19 15:38:21
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 sass.compiler = require('node-sass');
 const postcss = require('gulp-postcss');
-const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano'); // 优化css
 const gulpCache = require('gulp-cached'); // 只传递更改过的文件，减少编译时间
+const postcssCssnext = require('postcss-cssnext');
+const postcssReporter = require('postcss-reporter');
+// const stylelint = require('stylelint');
+const gulpStylelint = require('gulp-stylelint');
 
 module.exports = {
-  sass (src, dest, options = {}) {
+  sass (src, dest, options = { src: {}, stylelintConfig: {} }) {
     let plugins = [
-      autoprefixer({ overrideBrowserslist: ['cover 99.5%'] })
+      postcssCssnext,
+      postcssReporter({ clearReportedMessages: true })
     ];
     global.IS_PROD && plugins.push(cssnano());
 
-    return gulp.src(src, options)
+    return gulp.src(src, options.src)
       .pipe(gulpCache('sass'))
+      .pipe(gulpStylelint({
+        config: options.stylelintConfig,
+        syntax: 'scss',
+        reporters: [
+          { formatter: 'string', console: true }
+        ]
+      }))
       .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError)) // 输出标准格式，方便后处理
       .pipe(postcss(plugins))
       .pipe(gulp.dest(dest));
   },
-  cssmin (src, dest, options = {}) {
-    return gulp.src(src, options)
-      .pipe(postcss([cssnano()]))
+  cssmin (src, dest, options = { src: {}, stylelintConfig: {} }) {
+    return gulp.src(src, options.src)
+      .pipe(gulpStylelint({
+        config: options.stylelintConfig,
+        syntax: 'css',
+        reporters: [
+          { formatter: 'string', console: true }
+        ]
+      }))
+      .pipe(postcss([
+        postcssCssnext,
+        postcssReporter({ clearReportedMessages: true }),
+        cssnano()
+      ]))
       .pipe(gulp.dest(dest));
   }
 };

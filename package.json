@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
     "prod": "cross-env NODE_ENV=production gulp --config config/index.js",
-    "test": "cross-env NODE_ENV=production gulp cache-hash --config config/index.js"
+    "test": "cross-env NODE_ENV=production gulp sass --config config/index.js"
   },
   "repository": {
     "type": "git",
@@ -66,7 +66,9 @@
     "gulp-rev-css-url": "^0.1.0",
     "gulp-rev-delete-original": "^0.2.3",
     "gulp-sass": "^4.0.2",
+    "gulp-sass-lint": "^1.4.0",
     "gulp-sftp": "git+https://git@github.com/webksde/gulp-sftp",
+    "gulp-stylelint": "^9.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^3.1.6",
     "gulp-version-append": "^0.2.0",
@@ -76,9 +78,16 @@
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.12.0",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-import": "^12.0.1",
+    "postcss-reporter": "^6.0.1",
+    "postcss-scss": "^2.0.0",
     "pug": "^2.0.4",
     "request": "^2.88.0",
     "require-dir": "^1.2.0",
+    "stylelint": "^11.0.0",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-order": "^3.1.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^5.2.1"
