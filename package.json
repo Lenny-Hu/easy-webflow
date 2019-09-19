@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
     "prod": "cross-env NODE_ENV=production gulp --config config/index.js",
-    "test": "cross-env NODE_ENV=production gulp --config config/index.js"
+    "test": "cross-env NODE_ENV=production gulp sftp --config config/index.js"
   },
   "repository": {
     "type": "git",

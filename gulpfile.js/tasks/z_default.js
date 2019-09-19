@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:17:41
- * @LastEditTime: 2019-09-19 10:02:53
+ * @LastEditTime: 2019-09-19 10:08:32
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -15,7 +15,7 @@ if (config.isProd) {
     'before', 'clean', 'image', 'sprite',
     gulp.parallel('sass', 'webpack', 'copy', 'copy-server'),
     'view', 'cache-hash',
-    // 'sftp'
+    'sftp',
     'after'
   );
 } else {
