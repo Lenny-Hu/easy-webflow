@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-18 15:03:01
+ * @LastEditTime: 2019-09-19 11:51:48
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -21,6 +21,7 @@ const { Logger } = require('./lib/logger');
 const utils = require('./lib/utils');
 
 const base = {
+  useDufault: true, // 执行默认任务
   src: {
     root: 'app',
     public: 'public',

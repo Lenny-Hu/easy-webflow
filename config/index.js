@@ -2,13 +2,14 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-19 10:09:12
+ * @LastEditTime: 2019-09-19 11:52:10
  * @LastEditors: Please set LastEditors
  */
 const serverConfig = require('../app/config');
 
 module.exports = {
   development: {
+    useDufault: false,
     debug: true,
     host: 'localhost',
     prot: serverConfig.development.prot,
@@ -52,6 +53,7 @@ module.exports = {
     } 
   },
   production: {
+    useDufault: false,
     debug: false,
     host: 'localhost',
     prot: serverConfig.production.prot,
