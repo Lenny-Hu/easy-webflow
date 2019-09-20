@@ -2,6 +2,7 @@
   "restartable": "rs",
   "ignore": [
     ".git",
+    "public/**/*",
     "node_modules/**/*"
   ],
   "verbose": true,

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 15:59:06
- * @LastEditTime: 2019-09-18 16:43:55
+ * @LastEditTime: 2019-09-20 10:50:44
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -13,7 +13,7 @@ module.exports = {
     return args.join('/');
   },
   copy (src, dest, options = {}) {
-    gulp.src(src, options).pipe(gulp.dest(dest));
+    return gulp.src(src, options).pipe(gulp.dest(dest));
   },
   async del (globs, options = {}) {
     let deletedPaths = await del(globs, options);
