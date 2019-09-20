@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
     "prod": "cross-env NODE_ENV=production gulp --config config/index.js",
-    "test": "cross-env NODE_ENV=development gulp webpack --config config/index.js"
+    "test": "cross-env NODE_ENV=production gulp webpack --config config/index.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "ansi-colors": "^4.1.1",
     "ansi-styles": "^4.1.0",
     "autoprefixer": "^9.6.1",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "chalk": "^2.4.2",
@@ -52,6 +53,10 @@
     "del": "^5.1.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^3.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "fancy-log": "^1.3.3",
     "glob": "^7.1.4",
     "gulp": "^4.0.2",
@@ -98,6 +103,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "core-js": "3"
+    "core-js": "3",
+    "eslint": "^6.4.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-vue": "^5.2.3"
   }
 }

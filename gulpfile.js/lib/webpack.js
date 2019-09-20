@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-19 09:43:15
- * @LastEditTime: 2019-09-20 13:27:36
+ * @LastEditTime: 2019-09-20 13:53:56
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -80,15 +80,15 @@ module.exports = {
           return false;
         }
 
-        const info = stats.toJson();
+        // const info = stats.toJson();
 
-        if (stats.hasErrors()) {
-          logger.error('[webpack]', info.errors);
-        }
+        // if (stats.hasErrors()) {
+        //   logger.error('[webpack]', info.errors);
+        // }
 
-        if (stats.hasWarnings()) {
-          logger.warn('[webpack]', info.warnings);
-        }
+        // if (stats.hasWarnings()) {
+        //   logger.warn('[webpack]', info.warnings);
+        // }
 
         // 打印webpack输出信息
         console.log(stats.toString({
