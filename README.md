@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-18 10:49:44
+ * @LastEditTime: 2019-09-20 14:01:08
  * @LastEditors: Please set LastEditors
  -->
  
@@ -48,7 +48,7 @@ npm run prod
 - es6|7 => js
 - typescript => js(暂无)
 - css stylelint
-- js lint(暂无)
+- js lint，不支持自定义配置（未测试包使用有没有问题）
 - html lint(暂无)
 - 开发服务器、自动重载、动态插入样式 Browsersync
 - 根据配置文件启动开发服务或者构建生产环境资源

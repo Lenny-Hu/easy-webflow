@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-20 13:31:27
+ * @LastEditTime: 2019-09-20 14:04:25
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -22,7 +22,7 @@ const utils = require('./lib/utils');
 const stylelintConfig = require('../stylelint.config');
 
 const base = {
-  useDufault: true, // 执行默认任务
+  useDefault: true, // 执行默认任务
   src: {
     root: 'app',
     public: 'public',
