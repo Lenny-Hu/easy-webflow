@@ -2,10 +2,10 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:13:28
- * @LastEditTime: 2019-09-20 10:24:36
+ * @LastEditTime: 2019-09-20 13:33:47
  * @LastEditors: Please set LastEditors
  */
-console.log('这里是全局的js1231234444');
+console.log('这里是全局的js');
 
 let [a, b, c] = [1, 2, 3];
 console.log('变量的解构赋值', a, b, c);

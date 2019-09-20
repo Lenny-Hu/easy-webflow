@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-19 13:59:57
+ * @LastEditTime: 2019-09-20 13:31:27
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -38,7 +38,8 @@ const base = {
   dest: 'dist',
   isProd: global.IS_PROD,
   debug: false,
-  stylelintConfig
+  stylelintConfig, // 样式检查配置
+  webpack: {} // webpack配置
 };
 
 let res = _.merge(base, userConfig);
