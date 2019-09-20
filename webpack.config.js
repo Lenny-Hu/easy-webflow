@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-19 09:47:22
- * @LastEditTime: 2019-09-20 13:37:23
+ * @LastEditTime: 2019-09-20 16:55:36
  * @LastEditors: Please set LastEditors
  */
 const path = require('path');
@@ -36,7 +36,15 @@ module.exports = {
         options: {
           formatter: require('eslint-friendly-formatter')
         }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /(node_modules|bower_components)/
       }
     ]
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ]
   }
 };

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-20 14:01:08
+ * @LastEditTime: 2019-09-20 17:33:05
  * @LastEditors: Please set LastEditors
  -->
  
@@ -46,7 +46,7 @@ npm run prod
 
 - sass => css
 - es6|7 => js
-- typescript => js(暂无)
+- typescript => js
 - css stylelint
 - js lint，不支持自定义配置（未测试包使用有没有问题）
 - html lint(暂无)

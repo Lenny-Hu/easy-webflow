@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-19 09:43:15
- * @LastEditTime: 2019-09-20 13:53:56
+ * @LastEditTime: 2019-09-20 17:33:47
  * @LastEditors: Please set LastEditors
  */
 const gulp = require('gulp');
@@ -107,5 +107,5 @@ module.exports = {
         compiler.run(hander);
       }
     });
-  },
+  }
 }

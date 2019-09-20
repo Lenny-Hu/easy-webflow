@@ -1,7 +1,7 @@
 {
-  "name": "easy-workflow",
-  "description": "",
-  "version": "0.0.1",
+  "name": "easy-webflow",
+  "description": "一个简单的前端工作流",
+  "version": "0.0.2",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/Lenny-Hu/gulp-demo"
   },
-  "keywords": [],
+  "keywords": ["workflow", "gulp webpack", "gulp es6"],
   "author": "Lenny Hu",
   "license": "LGPL",
   "bugs": {
@@ -96,17 +96,19 @@
     "stylelint": "^11.0.0",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-order": "^3.1.1",
+    "ts-loader": "^6.1.1",
+    "typescript": "^3.6.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.40.2",
-    "webpack-stream": "^5.2.1"
-  },
-  "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "core-js": "3",
+    "webpack-stream": "^5.2.1",
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-vue": "^5.2.3"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "core-js": "3"
   }
 }
