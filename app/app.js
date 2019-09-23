@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-02 16:46:57
- * @LastEditTime: 2019-09-17 17:06:11
+ * @LastEditTime: 2019-09-23 13:45:39
  * @LastEditors: Please set LastEditors
  */
 
@@ -23,7 +23,7 @@ app.use(views(path.resolve('./views'), { extension: 'pug' }));
 app.use(static(path.resolve('./public')));
 
 app.use(router.routes());
-app.listen(config.prot, (e) => {
-  console.log('[启动监听完成]', config.prot);
+app.listen(config.port, (e) => {
+  console.log('[启动监听完成]', config.port);
 });
 

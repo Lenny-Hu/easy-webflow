@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-17 10:30:23
- * @LastEditTime: 2019-09-17 10:34:17
+ * @LastEditTime: 2019-09-23 14:01:28
  * @LastEditors: Please set LastEditors
  */
 const browserSync = require('browser-sync').create();
@@ -13,8 +13,9 @@ const { Logger } = require('../lib/logger');
 class Server {
   constructor (config, options = {}) {
     this.options = _.merge(config.browsersync, options);
-    this.config = config;
     this.logger = new Logger(config);
+    this.baseUrl = `http://${config.host}:${config.port || 80}`;
+    this.logger.info('[browsersync]', '代理服务地址', this.baseUrl);
   }
 
   proxy (req, res, next) {
@@ -24,7 +25,7 @@ class Server {
     if (notProxy) {
       next();
     } else {
-      req.pipe(request[req.method.toLowerCase()](`http://${this.config.host}:${this.config.prot}${req.url}`)).pipe(res);
+      req.pipe(request[req.method.toLowerCase()](`${this.baseUrl}${req.url}`)).pipe(res);
     }
   }
 

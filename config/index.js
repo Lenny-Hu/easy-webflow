@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-23 11:03:07
+ * @LastEditTime: 2019-09-23 13:45:00
  * @LastEditors: Please set LastEditors
  */
 const serverConfig = require('../app/config');
@@ -12,7 +12,7 @@ module.exports = {
     useDefault: true,
     debug: true,
     host: 'localhost',
-    prot: serverConfig.development.prot,
+    port: serverConfig.development.port,
     sftp: { // https://www.npmjs.com/package/gulp-sftp
       host: '127.0.0.1',
       user: 'root',
@@ -55,7 +55,7 @@ module.exports = {
     useDufault: true,
     debug: false,
     host: 'localhost',
-    prot: serverConfig.production.prot,
+    port: serverConfig.production.port,
     // sftp: {
     //   host: '127.0.0.1',
     //   user: 'root',
