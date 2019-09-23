@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-20 14:02:10
+ * @LastEditTime: 2019-09-23 10:22:01
  * @LastEditors: Please set LastEditors
  */
 const serverConfig = require('../app/config');
@@ -57,13 +57,13 @@ module.exports = {
     debug: false,
     host: 'localhost',
     prot: serverConfig.production.prot,
-    sftp: {
-      host: '127.0.0.1',
-      user: 'root',
-      pass: '123456',
-      port: 9001,
-      remotePath: '/gulp-demo'
-    },
+    // sftp: {
+    //   host: '127.0.0.1',
+    //   user: 'root',
+    //   pass: '123456',
+    //   port: 9001,
+    //   remotePath: '/gulp-demo'
+    // },
     before (config, cb) {
       setTimeout(() => {
         console.log('默认任务之前-----------');
