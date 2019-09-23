@@ -2,7 +2,7 @@
  * @Description: 默认配置文件
  * @Author: your name
  * @Date: 2019-09-12 14:43:03
- * @LastEditTime: 2019-09-20 14:04:25
+ * @LastEditTime: 2019-09-23 16:05:27
  * @LastEditors: Please set LastEditors
  */
 const _ = require('lodash');
@@ -38,7 +38,7 @@ const base = {
   dest: 'dist',
   isProd: global.IS_PROD,
   debug: false,
-  stylelintConfig, // 样式检查配置
+  stylelintConfig, // 样式检查配置，值为null时，不检查样式
   webpack: {} // webpack配置
 };
 
