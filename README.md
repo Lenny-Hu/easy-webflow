@@ -6,12 +6,12 @@
  * @LastEditors: Please set LastEditors
  -->
  
-# easy-workflow
+# easy-webflow
 > 使用gulp + webpack搭建前端工作流
 
 ## Install
 ```
-npm install easy-workflow --save-dev
+npm install easy-webflow --save-dev
 ```
 
 ## Usage
