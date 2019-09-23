@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-20 17:33:05
+ * @LastEditTime: 2019-09-23 16:03:20
  * @LastEditors: Please set LastEditors
  -->
  
@@ -16,13 +16,120 @@ npm install easy-webflow --save-dev
 
 ## Usage
 
-在`package.json`文件的`scripts`添加以下代码，使用`--config`指定自定义配置文件地址
+创建`gulpfile.js`文件
 ```
-"dev": "cross-env NODE_ENV=development gulp --config config/index.js",
-"prod": "cross-env NODE_ENV=production gulp --config config/index.js"
+// gulpfile.js
+require('easy-webflow');
 ```
 
-**开发环境**
+创建配置文件`webflow.config.js`，可配置项参考npm包内的`config/index.js` 和 `gulpfile.js/default-config.js` 
+也可以选择不执行默认的任务，加载 `gulpfile.js/lib` 目录下的工具方法执行自定义任务，下面是一个自定义任务的例子（监听文件变动，执行编辑、上传ftp等任务）
+```
+// webflow.config.js
+const path = require('path');
+const _ = require('lodash');
+const { Server, browserSync } = require('easy-webflow/gulpfile.js/lib/server');
+const { sftp } = require('easy-webflow/gulpfile.js/lib/sftp');
+const { sass } = require('easy-webflow/gulpfile.js/lib/sass');
+const { jsmin } = require('easy-webflow/gulpfile.js/lib/webpack');
+
+const handle = (_path, config) => {
+  const exname = path.extname(_path);
+
+  switch (exname) {
+    case '.scss':
+      sass(_path, 'www/css', {
+        src: {
+          base: 'www/sass'
+        }
+      });
+      break;
+
+    case '.js':
+      jsmin(_path, 'www/dest', {
+        src: {
+          base: 'www/js'
+        }
+      });
+      break;
+
+    default:
+      break;
+  }
+
+  sftp(_path, config.sftp);
+};
+
+const base = {
+  useDefault: false,
+  host: 'old.dev.21boya.cn',
+  port: 80,
+  sftp: {
+    host: '127.0.0.1',
+    user: 'root',
+    pass: '123456',
+    port: 22,
+    remotePath: '/usr/local/code'
+  },
+  browsersync: {
+    files: [
+      'www/**/*',
+      'application/**/*'
+    ],
+    server: {
+      baseDir: './'
+    },
+    notProxyUrls: [
+      '/www'
+    ]
+  },
+  before (config, cb) {
+    const server = new Server(config);
+    server.init();
+    cb();
+  },
+  watch: {
+    globs: [
+      'www/**/*',
+      'application/**/*'
+    ],
+    cb (watcher, config) {
+      watcher.on('add', (path) => {
+        console.log('添加文件', path);
+        handle(path, config);
+      });
+
+      watcher.on('unlink', (path) => {
+        console.log('删除文件', path);
+      });
+
+      watcher.on('change', (path) => {
+        console.log('更改文件', path);
+        handle(path, config);
+      });
+    }
+  } 
+}
+
+const config = {
+  development: _.merge(base, {
+
+  }),
+  production: _.merge(base, {
+    
+  })
+};
+
+module.exports = config;
+```
+
+在`package.json`文件的`scripts`添加以下代码，使用`--config`指定自定义配置文件地址
+```
+"dev": "cross-env NODE_ENV=development gulp --config webflow.config.js",
+"prod": "cross-env NODE_ENV=production gulp --config webflow.config.js"
+```
+
+**开发环境（默认任务行为）**
 
 <!-- 启动后端服务
 ```
@@ -35,7 +142,7 @@ cd app & npm run dev
 npm run dev
 ```
 
-**生产环境**
+**生产环境（默认任务行为）**
 
 将所有资源打包压缩优化后到dist目录，dist目录作为发布在生产环境资源
 ```
@@ -52,6 +159,7 @@ npm run prod
 - html lint(暂无)
 - 开发服务器、自动重载、动态插入样式 Browsersync
 - 根据配置文件启动开发服务或者构建生产环境资源
+- 禁用默认任务，执行自定义任务，比如监控文件改变执行编译或者上传ftp
 
 ## 目录结构
 ```
