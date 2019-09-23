@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-30 17:22:34
- * @LastEditTime: 2019-09-23 10:22:01
+ * @LastEditTime: 2019-09-23 11:03:07
  * @LastEditors: Please set LastEditors
  */
 const serverConfig = require('../app/config');
@@ -28,7 +28,6 @@ module.exports = {
     },
     after (config, cb) {
       setTimeout(() => {
-        // 开发模式下该任务不会执行
         console.log('默认任务之后执行');
         cb();
       }, 1000);
