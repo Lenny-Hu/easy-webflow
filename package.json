@@ -1,7 +1,7 @@
 {
   "name": "easy-webflow",
   "description": "一个简单的前端工作流",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
