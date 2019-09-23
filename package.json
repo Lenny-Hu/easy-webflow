@@ -1,7 +1,7 @@
 {
   "name": "easy-webflow",
   "description": "一个简单的前端工作流",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --config config/index.js",
@@ -10,16 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Lenny-Hu/gulp-demo"
+    "url": "https://github.com/Lenny-Hu/easy-webflow"
   },
   "keywords": ["workflow", "gulp webpack", "gulp es6"],
   "author": "Lenny Hu",
   "license": "LGPL",
   "bugs": {
-    "url": "https://github.com/Lenny-Hu/gulp-demo/issues"
+    "url": "https://github.com/Lenny-Hu/easy-webflow/issues"
   },
   "homepage": "https://github.com/Lenny-Hu",
   "devDependencies": {
+  },
+  "dependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.4.4",
@@ -63,7 +65,6 @@
     "gulp-babel": "^8.0.0",
     "gulp-cached": "^1.1.1",
     "gulp-concat": "^2.6.1",
-    "gulp-html-version": "^1.0.2",
     "gulp-if": "^3.0.0",
     "gulp-image": "^5.1.0",
     "gulp-postcss": "^8.0.0",
@@ -78,8 +79,6 @@
     "gulp-stylelint": "^9.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-useref": "^3.1.6",
-    "gulp-version-append": "^0.2.0",
-    "gulp-version-number": "^0.2.4",
     "gulp.spritesmith": "^6.10.1",
     "lodash": "^4.17.15",
     "merge-stream": "^2.0.0",
@@ -103,9 +102,7 @@
     "eslint": "^6.4.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-vue": "^5.2.3"
-  },
-  "dependencies": {
+    "eslint-plugin-vue": "^5.2.3",
     "@babel/polyfill": "^7.4.4",
     "core-js": "3"
   }
