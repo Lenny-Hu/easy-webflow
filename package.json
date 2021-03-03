@@ -88,7 +88,7 @@
     "postcss-import": "^12.0.1",
     "postcss-reporter": "^6.0.1",
     "postcss-scss": "^2.0.0",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "request": "^2.88.0",
     "require-dir": "^1.2.0",
     "stylelint": "^11.0.0",
