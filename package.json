@@ -83,7 +83,7 @@
     "lodash": "^4.17.15",
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",
     "postcss-reporter": "^6.0.1",
