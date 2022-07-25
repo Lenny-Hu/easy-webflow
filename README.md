@@ -1,12 +1,4 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-30 16:03:24
- * @LastEditTime: 2019-09-23 16:03:20
- * @LastEditors: Please set LastEditors
- -->
- 
-# easy-webflow
+ # easy-webflow
 > 使用gulp + webpack搭建前端工作流
 
 ## Install
@@ -62,19 +54,19 @@ const handle = (_path, config) => {
 
 const base = {
   useDefault: false,
-  host: 'old.dev.21boya.cn',
+  host: 'abc.com',
   port: 80,
   sftp: {
     host: '127.0.0.1',
     user: 'root',
-    pass: '123456',
+    pass: '',
     port: 22,
-    remotePath: '/usr/local/code'
+    remotePath: '/root/abc'
   },
   browsersync: {
     files: [
       'www/**/*',
-      'application/**/*'
+      'abc/**/*'
     ],
     server: {
       baseDir: './'
@@ -91,7 +83,7 @@ const base = {
   watch: {
     globs: [
       'www/**/*',
-      'application/**/*'
+      'abc/**/*'
     ],
     cb (watcher, config) {
       watcher.on('add', (path) => {
